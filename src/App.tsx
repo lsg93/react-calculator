@@ -1,26 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components'
+import Container from './components/Container'
+import Calculator from './components/Calculator'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+
+  html, body, #root {
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+  }
+  body {
+    margin: 0;
+  }`
+
+const Title = styled.h1`
+  color : #373F51;
+  text-align: center;
+`
+
+const App: React.FC = () => {
+  return( 
+        <>
+          <Container>
+            <Title>React Calculator</Title>
+            <Calculator/>
+          </Container>
+          <GlobalStyle/>
+        </>
+    )
 }
+
 
 export default App;
