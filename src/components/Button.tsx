@@ -5,7 +5,7 @@ interface ButtonProps {
     text : string
     type : string,
     alias ?: number,
-    onPress(text: string, type : string) : any
+    onPress(text: string) : any
 }
 
 const StyledButton = styled.div<{buttonType : string}>`
@@ -20,8 +20,9 @@ const StyledButton = styled.div<{buttonType : string}>`
     align-items: center;
     font-size: 1.6rem;
 
+
     &.pressed {
-        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);;
+        background-color: ${props => props.buttonType === 'number' ? '#f5f3f3cc' : '#ececec'};
     }
 
     &:last-of-type {
@@ -31,6 +32,9 @@ const StyledButton = styled.div<{buttonType : string}>`
         color : #FFFFFF;
         grid-column-end: 5;
 
+        &.pressed {
+            background-color : #649eff;
+        }
 
     }
 
@@ -45,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({text, type, alias, onPress}) => {
     }
 
     const handleClick = () => {
-        onPress(alias ? String.fromCharCode(alias) : text ,type)
+        onPress(alias ? String.fromCharCode(alias) : text)
     }
 
     const handleMouseUp = () => {

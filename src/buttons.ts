@@ -20,4 +20,8 @@ const buttonArr = [
     {text : '=', type : 'operator'}
 ]
 
-export default buttonArr
+let buttonList = [...buttonArr].map((v) => {
+    return v.text
+})
+
+export {buttonArr, buttonList}

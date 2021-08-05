@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {evaluate} from 'mathjs'
 import Screen from './Screen'
 import Button from './Button'
-import buttonArr from '../buttons'
+import {buttonArr, buttonList} from '../buttons'
 
 const StyledCalculator = styled.div`
     display: flex;
@@ -26,10 +26,10 @@ const StyledCalculator = styled.div`
         background: none;
         width : calc(100% - 15px)
     }
-
 `
 
 const StyledButtons = styled.div`
+    display : none;
     flex: 1;
     display : grid;
     grid-gap: 1px;
@@ -66,9 +66,22 @@ const Calculator: React.FC<Props> = () => {
             cleanedString = cleanedString.replace(String.fromCharCode(247), '/')
 
             setNextNumber(evaluate(cleanedString))
+
         }
 
     }, [currentExpression])
+
+    useEffect(() => {
+
+        window.addEventListener('keydown', handleKeydown)  
+
+        return () => {
+
+            window.removeEventListener('keydown', handleKeydown)
+
+        }
+
+    }, [nextNumber, currentExpression])
 
     const clear = () => {
         setCurrentExpression('')
@@ -84,7 +97,23 @@ const Calculator: React.FC<Props> = () => {
         setCurrentExpression(nextNumber.toString())
     }
 
-    const onPress = (text : string,) => {
+    const handleKeydown = (e : KeyboardEvent) => {
+
+        const key = e.key
+        
+        if (['Delete', 'Backspace'].indexOf(key) !== -1) {
+            onPress('DEL')
+        } else if (['=', 'Enter'].indexOf(key) !== -1) {
+            equals()
+        } else if (['c', 'C'].indexOf(key) !== -1) {
+            clear()
+        } else if (buttonList.indexOf(key) !== -1) {
+            onPress(key)
+        }
+
+    }
+
+    const onPress = (text : string) => {
 
         if (['C', 'DEL', '='].indexOf(text) !== -1 ) {
 
@@ -101,9 +130,9 @@ const Calculator: React.FC<Props> = () => {
             }
         } else {
 
-            let lastChar = currentExpression.slice(0).substring(currentExpression.length - 1)       
-
-            if ([text, lastChar].every((v) => ['-', String.fromCharCode(215), String.fromCharCode(247), '+'].includes(v))) {
+            let lastChar = currentExpression.slice(0).substring(currentExpression.length - 1)     
+            
+            if ([text, lastChar].every((v) => ['-', String.fromCharCode(215), String.fromCharCode(247), '+', '%'].includes(v))) {
                 setCurrentExpression(currentExpression.slice(0, -1).concat(text))
             } else {
                 setCurrentExpression(currentExpression.slice(0).concat(text))                
@@ -112,6 +141,7 @@ const Calculator: React.FC<Props> = () => {
         }
         
     }
+
 
     return (
             <StyledCalculator>

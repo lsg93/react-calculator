@@ -69,7 +69,7 @@ const Screen: React.FC<ScreenProps> = ({value, nextValue}) => {
     useEffect(() => {
         // remove animation when values change
         setAnimating(false)
-    }, [value])
+    }, [nextValue])
 
     useEffect(() => {
         // if new value is 0 and old value was not 0, then trigger animation.
